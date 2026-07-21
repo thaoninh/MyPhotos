@@ -14,11 +14,13 @@ class MinIOCloudStorageAdapter {
 
   async connect() {
     try {
-      console.log(`Connecting to MinIO at ${this.endpoint}...`);
+      // Force IPv4 by replacing localhost with 127.0.0.1
+      const endpoint = this.endpoint.replace('localhost', '127.0.0.1');
+      console.log(`Connecting to MinIO at ${endpoint}...`);
       
       this.client = new Client({
-        endPoint: this.endpoint.split(':')[0],
-        port: parseInt(this.endpoint.split(':')[1] || '9000'),
+        endPoint: endpoint.split(':')[0],
+        port: parseInt(endpoint.split(':')[1] || '9000'),
         useSSL: this.useSSL,
         accessKey: this.accessKey,
         secretKey: this.secretKey
@@ -38,7 +40,7 @@ class MinIOCloudStorageAdapter {
       }
 
       this.connected = true;
-      console.log(`MinIO connected successfully at ${this.endpoint}`);
+      console.log(`MinIO connected successfully at ${endpoint}`);
       return true;
     } catch (error) {
       console.error('Failed to connect to MinIO:', error);
