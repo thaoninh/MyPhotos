@@ -14,6 +14,8 @@ class MinIOCloudStorageAdapter {
 
   async connect() {
     try {
+      console.log(`Connecting to MinIO at ${this.endpoint}...`);
+      
       this.client = new Client({
         endPoint: this.endpoint.split(':')[0],
         port: parseInt(this.endpoint.split(':')[1] || '9000'),
@@ -22,18 +24,29 @@ class MinIOCloudStorageAdapter {
         secretKey: this.secretKey
       });
 
+      console.log('MinIO client created successfully');
+
       // Test connection by checking if bucket exists, create if not
+      console.log(`Checking if bucket '${this.bucketName}' exists...`);
       const bucketExists = await this.client.bucketExists(this.bucketName);
+      console.log(`Bucket exists: ${bucketExists}`);
+      
       if (!bucketExists) {
+        console.log(`Creating bucket '${this.bucketName}'...`);
         await this.client.makeBucket(this.bucketName);
         console.log(`Created bucket: ${this.bucketName}`);
       }
 
       this.connected = true;
-      console.log(`MinIO connected at ${this.endpoint}`);
+      console.log(`MinIO connected successfully at ${this.endpoint}`);
       return true;
     } catch (error) {
       console.error('Failed to connect to MinIO:', error);
+      console.error('Error details:', {
+        message: error.message,
+        code: error.code,
+        stack: error.stack
+      });
       return false;
     }
   }

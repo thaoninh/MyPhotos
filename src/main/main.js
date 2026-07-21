@@ -41,17 +41,22 @@ app.whenReady().then(() => {
   createWindow();
 
   // Initialize cloud storage location
-  storageManager.addStorageLocation({
-    id: '3',
-    name: 'MinIO Cloud Storage',
-    type: 'cloud',
-    endpoint: 'localhost:9000',
-    accessKey: 'minioadmin',
-    secretKey: 'minioadmin',
-    useSSL: false,
-    bucketName: 'photos',
-    connected: false
-  });
+  try {
+    storageManager.addStorageLocation({
+      id: '3',
+      name: 'MinIO Cloud Storage',
+      type: 'cloud',
+      endpoint: 'localhost:9000',
+      accessKey: 'minioadmin',
+      secretKey: 'minioadmin',
+      useSSL: false,
+      bucketName: 'photos',
+      connected: false
+    });
+    console.log('Cloud storage location added to StorageManager');
+  } catch (error) {
+    console.error('Failed to add cloud storage location:', error);
+  }
 
   app.on('activate', () => {
     if (BrowserWindow.getAllWindows().length === 0) {
@@ -237,9 +242,12 @@ ipcMain.handle('get-storage-locations', async () => {
 
 ipcMain.handle('connect-storage', async (event, locationId) => {
   try {
+    console.log(`Attempting to connect to storage location: ${locationId}`);
     const connected = await storageManager.connectLocation(locationId);
+    console.log(`Storage connection result: ${connected}`);
     return connected;
   } catch (error) {
+    console.error('Failed to connect storage:', error);
     throw new Error(`Failed to connect storage: ${error.message}`);
   }
 });

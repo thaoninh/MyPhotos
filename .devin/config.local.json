@@ -18,7 +18,9 @@
       "Exec(/bin/bash)",
       "Exec(ls)",
       "Exec(colima start)",
-      "Exec(npm uninstall)"
+      "Exec(npm uninstall)",
+      "Exec(cat)",
+      "Exec(colima status)"
     ]
   }
 }
