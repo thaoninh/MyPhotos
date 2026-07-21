@@ -1,0 +1,24 @@
+{
+  "permissions": {
+    "allow": [
+      "Exec(docker)",
+      "Exec(brew)",
+      "Exec(chmod)",
+      "Exec(/tmp/minio)",
+      "Exec(uname)",
+      "Exec(curl)",
+      "Exec(npm search)",
+      "Exec(npm install)",
+      "Exec(npx minio-for-tests)",
+      "Exec(node)",
+      "Exec(npm run)",
+      "Exec(npm start)",
+      "Exec(rm)",
+      "Exec(git)",
+      "Exec(/bin/bash)",
+      "Exec(ls)",
+      "Exec(colima start)",
+      "Exec(npm uninstall)"
+    ]
+  }
+}
